@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: insta_app_api
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    networks:
+      - laravel
+
+  web:
+    image: nginx:alpine
+    container_name: insta_web
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  postgres:
+    image: postgres:16
+    container_name: instapp_db
+    ports:
+      - "4321:5432"
+    environment:
+      POSTGRES_DB: insta_app
+      POSTGRES_USER: user_insta_app
+      POSTGRES_PASSWORD: pass_insta_app
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+
+volumes:
+  dbdata:
