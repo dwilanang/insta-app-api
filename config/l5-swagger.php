@@ -55,7 +55,7 @@ return [
                 ],
             ],
             'headers' => [
-                'Accept' => 'application/json',
+                // 'Accept' => 'application/json',
             ],
         ],
     ],
