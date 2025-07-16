@@ -51,10 +51,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        \Log::error('Data login', [
-            'credentials' => $credentials,
-            'user' => Auth::user(),
-        ]);
         if ($request->expectsJson() || $request->is('api/*')) {
             if ($exception instanceof \Illuminate\Validation\ValidationException) {
                 return new JsonResponse([

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,9 +16,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:100',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
+            'email' => 'required|email',
             'password' => [
                 'required',
                 'min:6',
@@ -30,11 +28,8 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Nama wajib diisi.',
-            'name.max' => 'Nama maksimal 100 character.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.regex' => 'Password harus mengandung kombinasi huruf dan angka.',
@@ -44,7 +39,7 @@ class RegisterRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'message' => 'Register gagal, Coba lagi!',
+            'message' => 'Login gagal, Coba lagi!',
             'errors' => $validator->errors()
         ], 422));
     }

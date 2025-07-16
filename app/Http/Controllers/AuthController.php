@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 
 /**
  * @OA\Tag(name="Auth")
@@ -19,15 +21,10 @@ class AuthController extends Controller
      *     tags={"Auth"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                 required={"name", "email", "password"},
-     *                 @OA\Property(property="name", type="string", example="John Doe"),
-     *                 @OA\Property(property="email", type="string", example="john@example.com"),
-     *                 @OA\Property(property="password", type="string", example="secret123"),
-     *                 @OA\Property(property="profile_image", type="string", format="binary", nullable=true)
-     *             )
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="john doe"),
+     *             @OA\Property(property="email", type="string", example="john@example.com"),
+     *             @OA\Property(property="password", type="string", example="password123")
      *         )
      *     ),
      *     @OA\Response(
@@ -42,28 +39,14 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
-        ]);
-
-         // Simpan gambar jika ada
-        $imagePath = null;
-        if ($request->hasFile('profile_image')) {
-            $imagePath = $request->file('profile_image')->store('profile_images', 'public');
-        }
-
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'profile_image' => $imagePath,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
-
+        
         return response()->json([
             'status' => true,
             'message' => 'User registered successfully',
@@ -95,7 +78,7 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -118,41 +101,5 @@ class AuthController extends Controller
                 'user'=> $user
             ]
         ]);
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/api/v1/me",
-     *     summary="Get authenticated user",
-     *     description="Returns the user data of the currently authenticated user based on token (Sanctum)",
-     *     operationId="getAuthenticatedUser",
-     *     tags={"Auth"},
-     *     security={{"sanctum":{}}},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Authenticated user data",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Authenticated user"),
-     *             @OA\Property(property="user", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="John Doe"),
-     *                 @OA\Property(property="email", type="string", example="john@example.com"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2025-07-15T07:00:00.000000Z"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2025-07-15T07:00:00.000000Z")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
-    public function me(Request $request)
-    {
-        return response()->json([
-            'message' => 'Authenticated user',
-            'user' => Auth::user(),
-        ]);
-    }   
+    }  
 }

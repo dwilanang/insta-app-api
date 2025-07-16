@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
@@ -15,7 +16,10 @@ Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 });
 
-Route::middleware('auth:sanctum')->get('/v1/me', [AuthController::class, 'me']);
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    Route::get('/me', [UserController::class, 'me']);
+    Route::post('/profile/photo', [UserController::class, 'updatePhoto']);
+});
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::get('/posts', [PostController::class, 'index']);

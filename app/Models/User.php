@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->profile_image ? asset('storage/' . $this->profile_image) : null;
+    }
 }

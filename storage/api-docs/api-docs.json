@@ -23,17 +23,12 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "email",
-                                    "password"
-                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "john doe"
                                     },
                                     "email": {
                                         "type": "string",
@@ -41,12 +36,7 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "secret123"
-                                    },
-                                    "profile_image": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "nullable": true
+                                        "example": "password123"
                                     }
                                 },
                                 "type": "object"
@@ -127,69 +117,6 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/me": {
-            "get": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Get authenticated user",
-                "description": "Returns the user data of the currently authenticated user based on token (Sanctum)",
-                "operationId": "getAuthenticatedUser",
-                "responses": {
-                    "200": {
-                        "description": "Authenticated user data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Authenticated user"
-                                        },
-                                        "user": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "John Doe"
-                                                },
-                                                "email": {
-                                                    "type": "string",
-                                                    "example": "john@example.com"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2025-07-15T07:00:00.000000Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2025-07-15T07:00:00.000000Z"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
             }
         },
         "/api/v1/posts/{post}/comments": {
@@ -523,6 +450,123 @@
                     }
                 ]
             }
+        },
+        "/api/v1/me": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get authenticated user",
+                "description": "Returns the user data of the currently authenticated user based on token (Sanctum)",
+                "operationId": "getAuthenticatedUser",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Authenticated user"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-07-15T07:00:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-07-15T07:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/profile/photo": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Upload Foto Profil",
+                "operationId": "67664814d4174c3b3190e1c48d4e30be",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "profile_image"
+                                ],
+                                "properties": {
+                                    "profile_image": {
+                                        "description": "Gambar profil",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Foto profil berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "image_url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -610,7 +654,7 @@
                     },
                     "message": {
                         "type": "string",
-                        "example": "Login successful"
+                        "example": "Successful"
                     },
                     "data": {
                         "$ref": "#/components/schemas/User"
@@ -626,7 +670,7 @@
                     },
                     "message": {
                         "type": "string",
-                        "example": "Login success"
+                        "example": "Successful"
                     },
                     "data": {
                         "$ref": "#/components/schemas/AuthToken"
@@ -723,6 +767,10 @@
         {
             "name": "Posts",
             "description": "Posts"
+        },
+        {
+            "name": "User",
+            "description": "User"
         }
     ]
 }

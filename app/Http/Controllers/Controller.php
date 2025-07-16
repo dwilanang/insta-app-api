@@ -62,7 +62,7 @@ namespace App\Http\Controllers;
  *     schema="StandardResponseWithUser",
  *     type="object",
  *     @OA\Property(property="status", type="boolean", example=true),
- *     @OA\Property(property="message", type="string", example="Login successful"),
+ *     @OA\Property(property="message", type="string", example="Successful"),
  *     @OA\Property(property="data", ref="#/components/schemas/User")
  * )
  * 
@@ -70,7 +70,7 @@ namespace App\Http\Controllers;
  *     schema="StandardResponseWithToken",
  *     type="object",
  *     @OA\Property(property="status", type="boolean", example=true),
- *     @OA\Property(property="message", type="string", example="Login success"),
+ *     @OA\Property(property="message", type="string", example="Successful"),
  *     @OA\Property(property="data", ref="#/components/schemas/AuthToken")
  * )
  * 
