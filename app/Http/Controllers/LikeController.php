@@ -29,7 +29,7 @@ class LikeController extends Controller
      *     )
      * )
      */
-    public function toggle(Post $post)
+    public function index(Post $post)
     {
         $user = auth()->user();
 

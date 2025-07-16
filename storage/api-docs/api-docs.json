@@ -257,7 +257,7 @@
                     "Likes"
                 ],
                 "summary": "Like atau Unlike sebuah post",
-                "operationId": "588e091f65e6a007b34f90a8e2fdf60a",
+                "operationId": "439e393528575cc890344c9bd69cde25",
                 "parameters": [
                     {
                         "name": "post",

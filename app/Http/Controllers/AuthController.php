@@ -90,6 +90,8 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        $user->profile_image =  $user->profile_image ? asset('storage/' . $user->profile_image) : null;
+
         // Buat token langsung dari user
         $token = $user->createToken('api-token')->plainTextToken;
 

@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::get('/posts/{post}/comments', [CommentController::class, 'index']);
-    Route::post('/posts/{post}/like', [LikeController::class, 'toggle']);
+    Route::post('/posts/{post}/like', [LikeController::class, 'index']);
     Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 });

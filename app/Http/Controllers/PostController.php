@@ -32,7 +32,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->latest()->get();
+        $posts = Post::with(['user', 'likes'])
+                ->withCount(['likes', 'comments'])
+                ->latest()
+                ->get();
+        
         return response()->json(['items'=>$posts]);
     }
 

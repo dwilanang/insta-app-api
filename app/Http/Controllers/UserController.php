@@ -38,11 +38,16 @@ class UserController extends Controller
      */
     public function me(Request $request)
     {
+
+        $user = Auth::user();
+
+        $user->profile_image =  $user->profile_image ? asset('storage/' . $user->profile_image) : null;
+
         return response()->json([
             'status' => true,
             'message' => 'Authenticated user',
             'data' => [
-                'user' => Auth::user(),
+                'user' => $user,
             ]
         ]);
     } 
