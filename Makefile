@@ -24,4 +24,3 @@ model:
 
 controller:
 	@php artisan make:controller
-	
