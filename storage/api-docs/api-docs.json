@@ -300,6 +300,18 @@
                 ],
                 "summary": "List all posts",
                 "operationId": "a5157d12defea153331f04463de26227",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Posts retrieved successfully",

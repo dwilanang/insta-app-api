@@ -18,6 +18,13 @@ class PostController extends Controller
      *     summary="List all posts",
      *     tags={"Posts"},
      *     security={{"sanctum":{}}},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number for pagination",
+     *         required=false,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Posts retrieved successfully",
@@ -30,14 +37,20 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::with(['user', 'likes'])
                 ->withCount(['likes', 'comments'])
                 ->latest()
-                ->get();
+                ->paginate(4);
         
-        return response()->json(['items'=>$posts]);
+        return response()->json([
+            'items' => $posts->items(),
+            'current_page' => $posts->currentPage(),
+            'last_page' => $posts->lastPage(),
+            'total' => $posts->total(),
+            'has_more' => $posts->hasMorePages(),
+        ]);
     }
 
     /**
