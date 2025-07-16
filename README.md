@@ -1,6 +1,6 @@
 # 📸 insta-app-api
 
-`insta-app-api` adalah RESTful API backend mirip Instagram yang dibangun menggunakan **Laravel**, **PostgreSQL**, dan berjalan dalam lingkungan **Docker**. Aplikasi ini menyediakan fitur inti seperti:
+`insta-app-api` adalah RESTful API backend Insta App yang dibangun menggunakan **Laravel**, **PostgreSQL**, dan berjalan dalam lingkungan **Docker**. Aplikasi ini menyediakan fitur inti seperti:
 
 ## ✨ Fitur Utama
 
@@ -35,7 +35,7 @@ git clone https://github.com/dwilanang/insta-app-api.git
 cd insta-app-api
 
 # Salin .env
-cp .env.example .env
+cp .env.local .env
 
 # Install docker desktop
 macos : https://docs.docker.com/desktop/setup/install/mac-install/
@@ -52,10 +52,4 @@ docker-compose up --build -d
 Setelah berjalan, akses dokumentasi Swagger di:
 ```
 http://localhost:8000/api/documentation
-```
-
-## 🧪 Testing
-
-```bash
-php artisan test
 ```
